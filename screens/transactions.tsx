@@ -29,7 +29,7 @@ const Topay = () => {
                         <View style={SplashStyle.SplashHistoryCard}>
                             <View style={SplashStyle.SplashHistoryCardLt}> 
                                 <View style={SplashStyle.SplashHistoryCardIco}>
-                                    <AntDesign name="swap" size={25} color="white" />
+                                    <AntDesign name="arrowdown" size={25} color="green" />
                                 </View>
                                 <View style={SplashStyle.SplashHistoryCardCol}>
                                     <Text style={SplashStyle.SplashHistoryCardColCap}>John Doe</Text>
@@ -37,8 +37,8 @@ const Topay = () => {
                                 </View>
                             </View>
                             <View style={SplashStyle.SplashHistoryCardRt}>
-                                <Text style={SplashStyle.SplashHistoryCardRtCap_G}>+ $2000</Text>
-                                <Text style={SplashStyle.SplashHistoryCardRtSCap}>Added</Text>
+                                <Text style={SplashStyle.SplashHistoryCardRtSCap}>Credited</Text>
+                                <Text style={SplashStyle.SplashHistoryCardRtCap_G}>₦2,000</Text>
                             </View>
                         </View>
                     </Link>
@@ -47,7 +47,7 @@ const Topay = () => {
                         <View style={SplashStyle.SplashHistoryCard}>
                             <View style={SplashStyle.SplashHistoryCardLt}> 
                                 <View style={SplashStyle.SplashHistoryCardIco}>
-                                    <AntDesign name="swap" size={25} color="white" />
+                                    <AntDesign name="arrowup" size={25} color="red" />
                                 </View>
                                 <View style={SplashStyle.SplashHistoryCardCol}>
                                     <Text style={SplashStyle.SplashHistoryCardColCap}>Anna Doe</Text>
@@ -55,8 +55,9 @@ const Topay = () => {
                                 </View>
                             </View>
                             <View style={SplashStyle.SplashHistoryCardRt}>
-                                <Text style={SplashStyle.SplashHistoryCardRtCap_R}>- $300</Text>
-                                <Text style={SplashStyle.SplashHistoryCardRtSCap}>Withdrawn</Text>
+                                <Text style={SplashStyle.SplashHistoryCardRtSCap_R}>Loan</Text>
+                                <Text style={SplashStyle.SplashHistoryCardRtCap}>₦4,000</Text>
+                                <Text style={SplashStyle.SplashHistoryCardRtSCap_G}>Cleared</Text>
                             </View>
                         </View>
                     </Link>
@@ -65,16 +66,17 @@ const Topay = () => {
                         <View style={SplashStyle.SplashHistoryCard}>
                             <View style={SplashStyle.SplashHistoryCardLt}> 
                                 <View style={SplashStyle.SplashHistoryCardIco}>
-                                    <AntDesign name="swap" size={25} color="white" />
+                                    <AntDesign name="arrowup" size={25} color="red" />
                                 </View>
                                 <View style={SplashStyle.SplashHistoryCardCol}>
                                     <Text style={SplashStyle.SplashHistoryCardColCap}>Micheal Doe</Text>
-                                    <Text style={SplashStyle.SplashHistoryCardColSCap}>3/08/2024 11:07PM</Text>
+                                    <Text style={SplashStyle.SplashHistoryCardColSCap}>6/10/2024 7:20AM</Text>
                                 </View>
                             </View>
                             <View style={SplashStyle.SplashHistoryCardRt}>
-                                <Text style={SplashStyle.SplashHistoryCardRtCap_G}>+ $100</Text>
-                                <Text style={SplashStyle.SplashHistoryCardRtSCap}>Added</Text>
+                                <Text style={SplashStyle.SplashHistoryCardRtSCap_R}>Loan</Text>
+                                <Text style={SplashStyle.SplashHistoryCardRtCap}>- ₦7,000</Text>
+                                <Text style={SplashStyle.SplashHistoryCardRtSCap_R}>Outstanding</Text>
                             </View>
                         </View>
                     </Link>

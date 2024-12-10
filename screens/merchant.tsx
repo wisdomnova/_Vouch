@@ -16,7 +16,7 @@ const Account = () => {
         
                 <View style={SplashStyle.SplashTextMid}>
                     <Text style={SplashStyle.SplashTextCovCap}>Merchant Paid</Text>
-                    <Text style={SplashStyle.SplashTextCovScap}>The Merchant has been paid #2000</Text>
+                    <Text style={SplashStyle.SplashTextCovScap}>The Merchant has been paid ₦2,000</Text>
                 </View>
         
                 <View style={SplashStyle.SplashTextFull}>

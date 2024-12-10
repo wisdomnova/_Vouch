@@ -227,12 +227,32 @@ const SplashStyle = StyleSheet.create({
     SplashHistoryCardIco: {
         width: 50,
         height: 50,
-        backgroundColor: '#163832',
+        // backgroundColor: '#163832',
+        backgroundColor: '#fbfbfb',
         borderRadius: 50,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
     },
+    SplashHistoryCardIco_R: {
+        width: 50,
+        height: 50,
+        backgroundColor: 'red',
+        borderRadius: 50,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    SplashHistoryCardIco_G: {
+        width: 50,
+        height: 50,
+        backgroundColor: 'green',
+        borderRadius: 50,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
 
     SplashHistoryCardRt: {
         width: '30%',
@@ -241,12 +261,22 @@ const SplashStyle = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'flex-end',
-        rowGap: 5
+        rowGap: 8
+    },
+    SplashHistoryCardRtCap: {
+        fontSize: 15,
+        fontWeight: 700,
+        color: '#163832',
     },
     SplashHistoryCardRtCap_G: {
         fontSize: 15,
         fontWeight: 800,
         color: 'green',
+    },
+    SplashHistoryCardRtCap_B: {
+        fontSize: 15,
+        fontWeight: 800,
+        color: 'brown',
     },
     SplashHistoryCardRtCap_R: {
         fontSize: 15,
@@ -257,6 +287,16 @@ const SplashStyle = StyleSheet.create({
         fontSize: 13,
         fontWeight: 600,
         color: '#163832',
+    },
+    SplashHistoryCardRtSCap_R: {
+        fontSize: 13,
+        fontWeight: 600,
+        color: 'red',
+    },
+    SplashHistoryCardRtSCap_G: {
+        fontSize: 13,
+        fontWeight: 600,
+        color: 'green',
     },
 
     SplashHistoryCardCol: {
@@ -277,6 +317,15 @@ const SplashStyle = StyleSheet.create({
         fontSize: 14,
         fontWeight: 500,
         color: '#163832',
+    },
+    SplashHistoryIcoView: {
+        width: 'auto',
+        height: 'auto',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        columnGap: 5
     },
 
 
