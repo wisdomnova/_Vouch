@@ -17,12 +17,12 @@ import { Link } from "expo-router";
 // import axios from "axios"; // Import axios for API calls
 
 const SignUp = () => {
-  const [email, setEmail] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
   const [error, setError] = useState("");
 
   // Function to handle API call
   const handleSignUp = async () => {
-    if (!email) {
+    if (!mobileNumber) {
       Alert.alert("Error", "Please enter a valid mobile number");
       return;
     }
@@ -35,7 +35,7 @@ const SignUp = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ phone_number: email }),
+          body: JSON.stringify({ phone_number: mobileNumber }),
         }
       );
 
@@ -82,13 +82,14 @@ const SignUp = () => {
             style={SplashStyle.SplashKeyboard}
           >
             <View style={SplashStyle.SplashLeftCol}>
-              <Text style={SplashStyle.SplashLeftColScap}>Email</Text>
+              <Text style={SplashStyle.SplashLeftColScap}>Mobile Number</Text>
               <TextInput
                 style={SplashStyle.SplashLeftColInp}
-                placeholder="john@example.com"
+                placeholder="+234 (XXX XXX XXXX)"
                 placeholderTextColor="#7b7b7b"
-                value={email}
-                onChangeText={(text) => setEmail(text)}
+                keyboardType="phone-pad"
+                value={mobileNumber}
+                onChangeText={(text) => setMobileNumber(text)}
               />
             </View>
 
@@ -96,7 +97,7 @@ const SignUp = () => {
 
             <TouchableOpacity
               style={SplashStyle.SplashTouchable}
-              // onPress={handleSignUp}
+              onPress={handleSignUp}
             >
               <Text style={SplashStyle.SplashTouchableLink}>Continue</Text>
             </TouchableOpacity>

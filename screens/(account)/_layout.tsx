@@ -48,11 +48,11 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => {
           if (color === '#c6c6c6') {
               return (
-                <Ionicons name="home" size={30} color={color} style={_iconStyle} />
+                <Ionicons name="home" size={30} color={color}  />
               );
             } else {
               return (
-                <Ionicons name="home" size={30} color={color} style={iconStyle} />
+                <Ionicons name="home" size={30} color={color} />
               );
             }
           }
@@ -66,11 +66,11 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => {
             if (color === '#c6c6c6') {
                 return (
-                  <Ionicons name="apps" size={30} color={color} style={_iconStyle} />
+                  <Ionicons name="apps" size={30} color={color}  />
                 );
               } else {
                 return (
-                  <Ionicons name="apps" size={30} color={color} style={iconStyle} />
+                  <Ionicons name="apps" size={30} color={color} />
                 );
               }
             }
@@ -84,11 +84,11 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => {
             if (color === '#c6c6c6') {
                 return (
-                  <Ionicons name="cog" size={30} color={color} style={_iconStyle} />
+                  <Ionicons name="cog" size={30} color={color}  />
                 );
               } else {
                 return (
-                  <Ionicons name="cog" size={30} color={color} style={iconStyle} />
+                  <Ionicons name="cog" size={30} color={color} />
                 );
               }
             }

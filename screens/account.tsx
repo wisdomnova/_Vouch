@@ -29,10 +29,10 @@ const Account = () => {
                         <TextInput style={SplashStyle.SplashLeftColInp} placeholder='********' placeholderTextColor='#7b7b7b'/>
                     </View>
 
-                    <View style={SplashStyle.SplashLeftCol}>
+                    {/* <View style={SplashStyle.SplashLeftCol}>
                         <Text style={SplashStyle.SplashLeftColScap}>Bank</Text>
                         <TextInput style={SplashStyle.SplashLeftColInp} placeholder='......' placeholderTextColor='#7b7b7b'/>
-                    </View>
+                    </View> */}
         
         
                     <TouchableOpacity style={SplashStyle.SplashTouchable}>
