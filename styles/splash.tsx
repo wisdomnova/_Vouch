@@ -7,6 +7,7 @@ const SplashStyle = StyleSheet.create({
     backgroundColor: "#fff",
     display: "flex",
     justifyContent: "center",
+    
     alignItems: "center",
   },
   SplashTopLeftView: {
@@ -17,16 +18,18 @@ const SplashStyle = StyleSheet.create({
     alignItems: "flex-start",
     flexDirection: "row",
     paddingTop: 20,
+  
   },
   SplashView: {
     width: "100%",
     height: "100%",
     display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
-    backgroundColor: "#fff",
+    // flexDirection: "column",
+    // justifyContent: "flex-start",
+    // alignItems: "flex-start",
+
     paddingHorizontal: 20,
+  
   },
   SplashImageCov: {
     width: "100%",
@@ -89,7 +92,7 @@ const SplashStyle = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start",
-    alignItems: "center",
+    // alignItems: "center",
     flex: 1,
     flexGrow: 1,
     paddingVertical: 20,
@@ -102,6 +105,7 @@ const SplashStyle = StyleSheet.create({
     justifyContent: "center",
     alignItems: "flex-start",
     paddingVertical: 10,
+    // backgroundColor:"red"
   },
   SplashLeftColScap: {
     fontSize: 12,
@@ -338,6 +342,5 @@ const SplashStyle = StyleSheet.create({
     fontSize: 16, // Slightly larger font size for readability
     // textAlign: "center", // Ensure text is centered
   },
-  errorText: {},
 });
 export default SplashStyle;

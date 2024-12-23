@@ -61,6 +61,7 @@ const HomeStyle = StyleSheet.create({
 
     HomeViewSubFlex: {
         width: '100%',
+        backgroundColor: 'red',
         height: 'auto',
         display: 'flex',
         flexDirection: 'row',

@@ -11,6 +11,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
+  ScrollView,
 } from "react-native";
 import SplashStyle from "@/styles/splash";
 import { Link } from "expo-router";
@@ -18,12 +19,21 @@ import { Link } from "expo-router";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phoneNuber, setPhoneNumber] = useState("");
+  const [passcode, setPasscode] = useState("");
+  const [bvn, setBvn] = useState("");
   const [error, setError] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [error, setError] = useState("");
 
   // Function to handle API call
   const handleSignUp = async () => {
     if (!email) {
-      Alert.alert("Error", "Please enter a valid mobile number");
+      setError("Please Fill all input");
+      // Alert.alert("Error", "Please enter a valid mobile number");
       return;
     }
 
@@ -81,22 +91,73 @@ const SignUp = () => {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={SplashStyle.SplashKeyboard}
           >
-            <View style={SplashStyle.SplashLeftCol}>
-              <Text style={SplashStyle.SplashLeftColScap}>Email</Text>
-              <TextInput
-                style={SplashStyle.SplashLeftColInp}
-                placeholder="john@example.com"
-                placeholderTextColor="#7b7b7b"
-                value={email}
-                onChangeText={(text) => setEmail(text)}
-              />
-            </View>
+            <ScrollView>
+              <View style={SplashStyle.SplashLeftCol}>
+                <Text style={SplashStyle.SplashLeftColScap}>First Name </Text>
+                <TextInput
+                  style={SplashStyle.SplashLeftColInp}
+                  placeholder="John"
+                  placeholderTextColor="#7b7b7b"
+                  value={firstName}
+                  onChangeText={(text) => setFirstName(text)}
+                />
+              </View>
 
-            {error ? <Text style={SplashStyle.error}>{error}</Text> : null}
-
+              <View style={SplashStyle.SplashLeftCol}>
+                <Text style={SplashStyle.SplashLeftColScap}>Last Name</Text>
+                <TextInput
+                  style={SplashStyle.SplashLeftColInp}
+                  placeholder="Doe"
+                  placeholderTextColor="#7b7b7b"
+                  value={lastName}
+                  onChangeText={(text) => setLastName(text)}
+                />
+              </View>
+              <View style={SplashStyle.SplashLeftCol}>
+                <Text style={SplashStyle.SplashLeftColScap}>Email</Text>
+                <TextInput
+                  style={SplashStyle.SplashLeftColInp}
+                  placeholder="john@example.com"
+                  placeholderTextColor="#7b7b7b"
+                  value={email}
+                  onChangeText={(text) => setEmail(text)}
+                />
+              </View>
+              <View style={SplashStyle.SplashLeftCol}>
+                <Text style={SplashStyle.SplashLeftColScap}>Phone Number</Text>
+                <TextInput
+                  style={SplashStyle.SplashLeftColInp}
+                  placeholder="+9999999999"
+                  placeholderTextColor="#7b7b7b"
+                  value={phoneNuber}
+                  onChangeText={(text) => setPhoneNumber(text)}
+                />
+              </View>
+              <View style={SplashStyle.SplashLeftCol}>
+                <Text style={SplashStyle.SplashLeftColScap}>BVN</Text>
+                <TextInput
+                  style={SplashStyle.SplashLeftColInp}
+                  placeholder="bvn"
+                  placeholderTextColor="#7b7b7b"
+                  value={bvn}
+                  onChangeText={(text) => setBvn(text)}
+                />
+              </View>
+              <View style={SplashStyle.SplashLeftCol}>
+                <Text style={SplashStyle.SplashLeftColScap}>Passcode</Text>
+                <TextInput
+                  style={SplashStyle.SplashLeftColInp}
+                  placeholder="passcode"
+                  placeholderTextColor="#7b7b7b"
+                  value={passcode}
+                  onChangeText={(text) => setPasscode(text)}
+                />
+              </View>
+            </ScrollView>
+              {error ? <Text style={SplashStyle.error}>{error}</Text> : null}
             <TouchableOpacity
               style={SplashStyle.SplashTouchable}
-              // onPress={handleSignUp}
+              onPress={handleSignUp}
             >
               <Text style={SplashStyle.SplashTouchableLink}>Continue</Text>
             </TouchableOpacity>

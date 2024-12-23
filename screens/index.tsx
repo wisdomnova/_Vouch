@@ -27,8 +27,10 @@ SplashScreen.setOptions({
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
-  const [mobileNumber, setMobileNumber] = useState("");
+  const [email, setEmail] = useState("");
   const [pin, setPin] = useState("");
+    const [error, setError] = useState("");
+  
 
   useEffect(() => {
     async function prepare() {
@@ -45,31 +47,37 @@ export default function App() {
   }, []);
 
   const handleSignUp = async () => {
-    if (!mobileNumber || !pin) {
-      Alert.alert("Error", "Please enter a valid mobile number");
+    if (!email || !pin) {
+      setError("Please Fill all input");
+      // Alert.alert("Error", "Please enter a valid mobile number");
       return;
     }
 
     try {
-      const response = await fetch("https://your-swagger-endpoint.com/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ mobile: mobileNumber }),
-      });
+      const response = await fetch(
+        "https://vouch-backend.onrender.com/api/v1/token",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: email, pin: pin }),
+        }
+      );
 
       if (response.ok) {
         Alert.alert("Success", "Account created successfully!");
       } else {
-        Alert.alert("Error", "Something went wrong. Please try again.");
+        setError("Something went wrong. Please try again.");
+        // Alert.alert("Error", "Something went wrong. Please try again.");
       }
     } catch (error) {
       console.error(error);
-      Alert.alert(
-        "Error",
-        "Failed to create an account. Please check your connection."
-      );
+      setError("Failed to create an account. Please check your connection.");
+      // Alert.alert(
+      //   "Error",
+      //   "Failed to create an account. Please check your connection."
+      // );
     }
   };
 
@@ -110,19 +118,19 @@ export default function App() {
               style={SplashStyle.SplashKeyboard}
             >
               <View style={SplashStyle.SplashLeftCol}>
-                <Text style={SplashStyle.SplashLeftColScap}>Mobile Number</Text>
+                <Text style={SplashStyle.SplashLeftColScap}>Email</Text>
                 <TextInput
                   style={SplashStyle.SplashLeftColInp}
-                  placeholder="+234 (XXX XXX XXXX)"
+                  placeholder="user@example.com"
                   placeholderTextColor="#7b7b7b"
                   keyboardType="phone-pad"
-                  value={mobileNumber}
-                  onChangeText={(text) => setMobileNumber(text)}
+                  value={email}
+                  onChangeText={(text) => setEmail(text)}
                 />
               </View>
 
               <View style={SplashStyle.SplashLeftCol}>
-                <Text style={SplashStyle.SplashLeftColScap}>PIN*</Text>
+                <Text style={SplashStyle.SplashLeftColScap}>Passcode*</Text>
                 <TextInput
                   style={SplashStyle.SplashLeftColInp}
                   placeholder="******"
@@ -132,6 +140,7 @@ export default function App() {
                   onChangeText={(text) => setPin(text)}
                 />
               </View>
+              {error ? <Text style={SplashStyle.error}>{error}</Text> : null}
 
               <TouchableOpacity
                 style={SplashStyle.SplashTouchable}
@@ -146,7 +155,7 @@ export default function App() {
                 </Text>
               </TouchableOpacity>
 
-              <Link style={SplashStyle.SplashLink} href={"/details"}>
+              <Link style={SplashStyle.SplashLink} href={"/(account)/home"}>
                 {" "}
                 Don't have an account? Sign Up
               </Link>
