@@ -35,19 +35,18 @@ const Home = () => {
                 <Text style={HomeStyle.HomeViewSubFlexCap}>Total Balance</Text>
                 <Text style={HomeStyle.HomeViewSubFlexSCap}>₦70,000.00</Text>
               </View>
-              <View>
-                <View style={HomeStyle.HomeViewCardAction}>
-                  <Link
-                    style={HomeStyle.HomeViewCardActionLink}
-                    href={"/transactions"}
-                  >
-                    <Text style={HomeStyle.HomeViewCardActionCap}>
-                      Credit History
-                    </Text>
-                  </Link>
-                  <Entypo name="chevron-right" size={20} color="black" />
-                </View>
+              <View style={HomeStyle.HomeViewCardAction}>
+                <Link
+                  style={HomeStyle.HomeViewCardActionLink}
+                  href={"/transactions"}
+                >
+                  <Text style={HomeStyle.HomeViewCardActionCap}>
+                    Credit History
+                  </Text>
+                </Link>
+                <Entypo name="chevron-right" size={20} color="black" />
               </View>
+              
             </View>
 
             <View style={HomeStyle.HomeViewTopFlex_Div}></View>
