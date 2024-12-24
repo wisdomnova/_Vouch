@@ -15,7 +15,8 @@ import {
 } from "react-native";
 import SplashStyle from "@/styles/splash";
 import { Link } from "expo-router";
-// import axios from "axios"; // Import axios for API calls
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { useNavigation } from "@react-navigation/native";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -24,48 +25,93 @@ const SignUp = () => {
   const [phoneNuber, setPhoneNumber] = useState("");
   const [passcode, setPasscode] = useState("");
   const [bvn, setBvn] = useState("");
+  const [dob, setDob] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
   const [error, setError] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [error, setError] = useState("");
 
-  // Function to handle API call
+    const navigation = useNavigation();
+
+  const handleDateChange = (event: any, date?: Date) => {
+    const currentDate = date || dob;
+    setShowDatePicker(Platform.OS === "ios");
+    setDob(currentDate);
+  };
+
+  const showDatePickerModal = () => {
+    setShowDatePicker(true);
+  };
+  const formatDate = (date: string | number | Date) => {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
   const handleSignUp = async () => {
-    if (!email) {
+    console.log(email, firstName, lastName, phoneNuber, passcode, bvn, dob);
+
+    if (
+      !email ||
+      !firstName ||
+      !lastName ||
+      !phoneNuber ||
+      !passcode ||
+      !bvn ||
+      !dob
+    ) {
+      console.log("Please Fill all input");
+
       setError("Please Fill all input");
-      // Alert.alert("Error", "Please enter a valid mobile number");
       return;
     }
 
     try {
       const response = await fetch(
-        "https://vouch-backend.onrender.com/api/v1/users/request_phone_verification/",
+        "https://vouch-backend.onrender.com/api/v1/users/",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ phone_number: email }),
+          body: JSON.stringify({
+            phone_number: phoneNuber,
+            email,
+            passcode,
+            first_name: firstName,
+            last_name: lastName,
+            bvn_number: bvn,
+            date_of_birth: formatDate(dob),
+          }),
         }
       );
 
-      const responseData = await response.json(); // Parse the response JSON
+      const responseData = await response.json();
       console.log(responseData);
+      console.log("submitted");
 
       if (response.ok) {
-        Alert.alert("Success", "Account created successfully!");
+        navigation.navigate("Home" as never);
+    
+        
+        // Alert.alert("Success", "Account created successfully!");
       } else {
+        // Extract the error message for `phone_number` if it exists
+        const phoneNumberError =
+          responseData.phone_number && responseData.phone_number[0];
         const errorMessage =
-          responseData.error || "Something went wrong. Please try again."; // Use API-provided message if available
-        // Alert.alert("Error", errorMessage);
+          phoneNumberError ||
+          responseData.error ||
+          "Something went wrong. Please try again.";
         setError(errorMessage);
       }
     } catch (error) {
       console.error(error);
-      Alert.alert(
-        "Error",
-        "Failed to create an account. Please check your connection."
-      );
+      setError("Failed to create an account. Please check your connection.");
+      // Alert.alert(
+      //   "Error",
+      //   "Failed to create an account. Please check your connection."
+      // );
     }
   };
 
@@ -153,8 +199,28 @@ const SignUp = () => {
                   onChangeText={(text) => setPasscode(text)}
                 />
               </View>
+              <View style={SplashStyle.SplashLeftCol}>
+                <Text style={SplashStyle.SplashLeftColScap}>Date of Birth</Text>
+                <TouchableOpacity onPress={showDatePickerModal}>
+                  <TextInput
+                    style={SplashStyle.SplashLeftColInp}
+                    placeholder="YYYY-MM-DD"
+                    placeholderTextColor="#7b7b7b"
+                    value={dob.toISOString().split("T")[0]}
+                    editable={false}
+                  />
+                </TouchableOpacity>
+                {showDatePicker && (
+                  <DateTimePicker
+                    value={dob}
+                    mode="date"
+                    display="default"
+                    onChange={handleDateChange}
+                  />
+                )}
+              </View>
             </ScrollView>
-              {error ? <Text style={SplashStyle.error}>{error}</Text> : null}
+            {error ? <Text style={SplashStyle.error}>{error}</Text> : null}
             <TouchableOpacity
               style={SplashStyle.SplashTouchable}
               onPress={handleSignUp}

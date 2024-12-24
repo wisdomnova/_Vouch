@@ -17,6 +17,7 @@ import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
 import SplashStyle from "@/styles/splash";
 import { Link } from "expo-router";
+import { useNavigation } from "@react-navigation/native";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -29,8 +30,9 @@ export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
   const [email, setEmail] = useState("");
   const [pin, setPin] = useState("");
-    const [error, setError] = useState("");
-  
+  const [error, setError] = useState("");
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     async function prepare() {
@@ -47,9 +49,11 @@ export default function App() {
   }, []);
 
   const handleSignUp = async () => {
+    console.log({ login: email, password: pin });
+
     if (!email || !pin) {
-      setError("Please Fill all input");
-      // Alert.alert("Error", "Please enter a valid mobile number");
+      setError("Please fill all input fields.");
+      Alert.alert("Error", "Email and PIN are required.");
       return;
     }
 
@@ -61,23 +65,39 @@ export default function App() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email: email, pin: pin }),
+          body: JSON.stringify({ login: email, password: pin }),
         }
       );
 
-      if (response.ok) {
-        Alert.alert("Success", "Account created successfully!");
-      } else {
-        setError("Something went wrong. Please try again.");
-        // Alert.alert("Error", "Something went wrong. Please try again.");
+      const contentType = response.headers.get("Content-Type");
+      let responseData;
+
+      // if (contentType && contentType.includes("application/json")) {
+      //   responseData = await response.json();
+      // } else {
+      //   responseData = await response.text(); // Fallback for non-JSON responses
+      //   throw new Error(`Unexpected response: ${responseData}`);
+      // }
+
+      if (!response.ok) {
+        console.log(response);
+
+        // const errorMessage =
+        // responseData?.error || "An unexpected error occurred.";
+        // throw new Error(errorMessage);
       }
-    } catch (error) {
-      console.error(error);
-      setError("Failed to create an account. Please check your connection.");
-      // Alert.alert(
-      //   "Error",
-      //   "Failed to create an account. Please check your connection."
-      // );
+
+      console.log("Sign-Up Success:", responseData);
+      navigation.navigate("home" as never);
+    } catch (error: any) {
+      console.error("Sign-Up Error:", error.message);
+      setError(
+        error.message || "Failed to create an account. Please try again."
+      );
+      Alert.alert(
+        "Error",
+        error.message || "Connection issue. Please try again."
+      );
     }
   };
 
@@ -155,7 +175,7 @@ export default function App() {
                 </Text>
               </TouchableOpacity>
 
-              <Link style={SplashStyle.SplashLink} href={"/(account)/home"}>
+              <Link style={SplashStyle.SplashLink} href={"/signup"}>
                 {" "}
                 Don't have an account? Sign Up
               </Link>
