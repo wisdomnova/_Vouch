@@ -86,7 +86,7 @@ const Home = () => {
                 </View>
               </View>
 
-              <View style={HomeStyle.HomeViewEligBox}>
+              {/* <View style={HomeStyle.HomeViewEligBox}>
                 <View style={HomeStyle.HomeViewEligBoxCol}>
                   <Text style={HomeStyle.HomeViewEligBoxColCap_G}>
                     Credit Eligibility
@@ -103,7 +103,7 @@ const Home = () => {
                     ₦10,000
                   </Text>
                 </View>
-              </View>
+              </View> */}
 
               {/* <View style={HomeStyle.HomeViewEligBox}>
                                 <View style={HomeStyle.HomeViewEligBoxCol}>

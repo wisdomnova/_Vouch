@@ -26,7 +26,7 @@ SplashScreen.setOptions({
   fade: true,
 });
 
-export default function App() {
+export default function Login() {
   const [appIsReady, setAppIsReady] = useState(false);
   const [email, setEmail] = useState("");
   const [pin, setPin] = useState("");
@@ -49,46 +49,37 @@ export default function App() {
   }, []);
 
   const handleSignUp = async () => {
-    console.log({ login: email, password: pin });
-
     if (!email || !pin) {
       setError("Please fill all input fields.");
       Alert.alert("Error", "Email and PIN are required.");
       return;
     }
 
+    const requestData = { login: email, password: pin };
+
     try {
       const response = await fetch(
-        "https://vouch-backend.onrender.com/api/v1/token",
+        "https://vouch-backend.onrender.com/api/v1/token/",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            accept: "application/json",
+            "X-CSRFToken":
+              "w5Klgjy6DZmewNoG7hpsofQ9nP4SQTmyirq6Hhl5gGmMPdh94duySgJWoo4IGQ44", // Use your actual CSRF token
           },
-          body: JSON.stringify({ login: email, password: pin }),
+          body: JSON.stringify(requestData),
         }
       );
 
-      const contentType = response.headers.get("Content-Type");
-      let responseData;
-
-      // if (contentType && contentType.includes("application/json")) {
-      //   responseData = await response.json();
-      // } else {
-      //   responseData = await response.text(); // Fallback for non-JSON responses
-      //   throw new Error(`Unexpected response: ${responseData}`);
-      // }
-
+      // Check if response is okay
       if (!response.ok) {
-        console.log(response);
-
-        // const errorMessage =
-        // responseData?.error || "An unexpected error occurred.";
-        // throw new Error(errorMessage);
+        const errorText = await response.text();
+        throw new Error(`Server Error: ${errorText}`);
       }
 
+      const responseData = await response.json();
       console.log("Sign-Up Success:", responseData);
-      navigation.navigate("home" as never);
     } catch (error: any) {
       console.error("Sign-Up Error:", error.message);
       setError(

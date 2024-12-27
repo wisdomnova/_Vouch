@@ -16,7 +16,7 @@ import {
 import SplashStyle from "@/styles/splash";
 import { Link } from "expo-router";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { useNavigation } from "@react-navigation/native";
+// import { useNavigation } from "@react-navigation/native";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -29,7 +29,7 @@ const SignUp = () => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [error, setError] = useState("");
 
-    const navigation = useNavigation();
+    // const navigation = useNavigation();
 
   const handleDateChange = (event: any, date?: Date) => {
     const currentDate = date || dob;
@@ -87,11 +87,11 @@ const SignUp = () => {
       );
 
       const responseData = await response.json();
-      console.log(responseData);
+      console.log("data",responseData);
       console.log("submitted");
 
       if (response.ok) {
-        navigation.navigate("Home" as never);
+        // navigation.navigate("Home" as never);
     
         
         // Alert.alert("Success", "Account created successfully!");
@@ -99,8 +99,10 @@ const SignUp = () => {
         // Extract the error message for `phone_number` if it exists
         const phoneNumberError =
           responseData.phone_number && responseData.phone_number[0];
+         const emailError =
+           responseData.email && responseData.email[0];
         const errorMessage =
-          phoneNumberError ||
+          phoneNumberError || emailError ||
           responseData.error ||
           "Something went wrong. Please try again.";
         setError(errorMessage);

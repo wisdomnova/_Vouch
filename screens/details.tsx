@@ -78,13 +78,15 @@ const Details = () => {
 
       const responseData = await response.json(); // Parse the response JSON
       console.log(responseData);
+      console.log("check",responseData);
 
       if (response.ok) {
         Alert.alert("Success", "Account created successfully!");
       } else {
         const errorMessage =
-          responseData.error || "Something went wrong. Please try again."; // Use API-provided message if available
+          responseData.email || "Something went wrong. Please try again."; // Use API-provided message if available
         // Alert.alert("Error", errorMessage);
+        
         setError(errorMessage);
       }
     } catch (error) {
