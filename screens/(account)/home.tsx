@@ -5,6 +5,7 @@ import HomeStyle from "@/styles/home";
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Link } from "expo-router";
+import NotificationContainer from "../notifications";
 
 const Home = () => {
   return (
@@ -25,7 +26,27 @@ const Home = () => {
                 <Text style={HomeStyle.HomeViewTopFlexCap}>Hi, John Doe</Text>
               </View>
               <View style={HomeStyle.HomeViewTopFlexR}>
-                <Entypo name="bell" size={21} color="#363636" />
+                <Link
+                  // style={HomeStyle.HomeViewCardActionLink}
+                  href={"/notifications"}
+                >
+                  <View
+                    style={{
+                      backgroundColor: "red",
+                      width: 20,
+                      height: 20,
+                      borderRadius: 100,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginRight: 10,
+                    }}
+                  >
+                    <Text style={{ color: "white", fontWeight: "bold" }}>
+                      5
+                    </Text>
+                  </View>
+                  <Entypo name="bell" size={21} color="#363636" />
+                </Link>
               </View>
             </View>
             {/* <View style={HomeStyle.HomeViewTopFlex_Div}></View> */}
@@ -46,7 +67,6 @@ const Home = () => {
                 </Link>
                 <Entypo name="chevron-right" size={20} color="black" />
               </View>
-              
             </View>
 
             <View style={HomeStyle.HomeViewTopFlex_Div}></View>
@@ -120,6 +140,7 @@ const Home = () => {
                 <Text style={HomeStyle.HomeViewToPayText}>Vouch To Pay</Text>
               </Link>
             </View>
+            {/* <NotificationContainer/> */}
 
             {/* <View style={HomeStyle.HomeViewFlex}>
  

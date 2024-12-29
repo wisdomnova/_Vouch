@@ -11,12 +11,13 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
 import SplashStyle from "@/styles/splash";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { useNavigation } from "@react-navigation/native";
 
 SplashScreen.preventAutoHideAsync();
@@ -26,13 +27,14 @@ SplashScreen.setOptions({
   fade: true,
 });
 
-export default function Login() {
+export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
   const [email, setEmail] = useState("");
   const [pin, setPin] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const navigation = useNavigation();
+  const router = useRouter();
 
   useEffect(() => {
     async function prepare() {
@@ -49,37 +51,46 @@ export default function Login() {
   }, []);
 
   const handleSignUp = async () => {
+    setIsLoading(true);
+    console.log({ login: email, password: pin });
+
     if (!email || !pin) {
       setError("Please fill all input fields.");
+      setIsLoading(false)
       Alert.alert("Error", "Email and PIN are required.");
       return;
     }
 
-    const requestData = { login: email, password: pin };
-
     try {
       const response = await fetch(
-        "https://vouch-backend.onrender.com/api/v1/token/",
+        "https://vouch-backend.onrender.com/api/v1/token",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            accept: "application/json",
-            "X-CSRFToken":
-              "w5Klgjy6DZmewNoG7hpsofQ9nP4SQTmyirq6Hhl5gGmMPdh94duySgJWoo4IGQ44", // Use your actual CSRF token
           },
-          body: JSON.stringify(requestData),
+          body: JSON.stringify({ login: email, password: pin }),
         }
       );
 
-      // Check if response is okay
+      const contentType = response.headers.get("Content-Type");
+      let responseData;
+
+      // if (contentType && contentType.includes("application/json")) {
+      //   responseData = await response.json();
+      // } else {
+      //   responseData = await response.text(); // Fallback for non-JSON responses
+      //   throw new Error(`Unexpected response: ${responseData}`);
+      // }
+
       if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Server Error: ${errorText}`);
+        console.log(response);
       }
 
-      const responseData = await response.json();
       console.log("Sign-Up Success:", responseData);
+
+      router.push("/home");
+      // navigation.navigate("home" as never);
     } catch (error: any) {
       console.error("Sign-Up Error:", error.message);
       setError(
@@ -89,6 +100,8 @@ export default function Login() {
         "Error",
         error.message || "Connection issue. Please try again."
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -134,7 +147,7 @@ export default function Login() {
                   style={SplashStyle.SplashLeftColInp}
                   placeholder="user@example.com"
                   placeholderTextColor="#7b7b7b"
-                  keyboardType="phone-pad"
+                  // keyboardType="text"
                   value={email}
                   onChangeText={(text) => setEmail(text)}
                 />
@@ -152,19 +165,22 @@ export default function Login() {
                 />
               </View>
               {error ? <Text style={SplashStyle.error}>{error}</Text> : null}
-
-              <TouchableOpacity
-                style={SplashStyle.SplashTouchable}
-                onPress={handleSignUp}
-              >
-                <Text
-                  style={SplashStyle.SplashTouchableLink}
-                  // href={"/(account)/home"}
+              {!isLoading ? (
+                <TouchableOpacity
+                  style={SplashStyle.SplashTouchable}
+                  onPress={handleSignUp}
                 >
-                  {" "}
-                  Sign In
-                </Text>
-              </TouchableOpacity>
+                  <Text
+                    style={SplashStyle.SplashTouchableLink}
+                    // href={"/(account)/home"}
+                  >
+                    {" "}
+                    Sign In
+                  </Text>
+                </TouchableOpacity>
+              ) : (
+                <ActivityIndicator size="large" color="#6200ea" />
+              )}
 
               <Link style={SplashStyle.SplashLink} href={"/signup"}>
                 {" "}

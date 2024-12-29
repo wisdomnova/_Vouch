@@ -12,11 +12,7 @@ const Topay = () => {
     
             <View style={SplashStyle.SplashView}>
 
-                <View style={SplashStyle.SplashTopLeftView}>
-                    <Link href={'/home'}>
-                        <Entypo name="chevron-left" size={35} color="black" />
-                    </Link>
-                </View>
+               
 
                 <View style={SplashStyle.SplashHistory20}></View>
                 <View style={SplashStyle.SplashTextCov}>

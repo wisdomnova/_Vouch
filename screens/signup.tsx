@@ -12,9 +12,10 @@ import {
   Keyboard,
   Alert,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import SplashStyle from "@/styles/splash";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import DateTimePicker from "@react-native-community/datetimepicker";
 // import { useNavigation } from "@react-navigation/native";
 
@@ -28,9 +29,10 @@ const SignUp = () => {
   const [dob, setDob] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-    // const navigation = useNavigation();
 
+    const router = useRouter();
   const handleDateChange = (event: any, date?: Date) => {
     const currentDate = date || dob;
     setShowDatePicker(Platform.OS === "ios");
@@ -63,6 +65,8 @@ const SignUp = () => {
       console.log("Please Fill all input");
 
       setError("Please Fill all input");
+      setIsLoading(false);
+
       return;
     }
 
@@ -91,7 +95,7 @@ const SignUp = () => {
       console.log("submitted");
 
       if (response.ok) {
-        // navigation.navigate("Home" as never);
+       router.push("../home");
     
         
         // Alert.alert("Success", "Account created successfully!");
@@ -114,6 +118,8 @@ const SignUp = () => {
       //   "Error",
       //   "Failed to create an account. Please check your connection."
       // );
+    }finally{
+      setIsLoading(false);
     }
   };
 
@@ -223,12 +229,14 @@ const SignUp = () => {
               </View>
             </ScrollView>
             {error ? <Text style={SplashStyle.error}>{error}</Text> : null}
-            <TouchableOpacity
+          {!isLoading ? (  <TouchableOpacity
               style={SplashStyle.SplashTouchable}
               onPress={handleSignUp}
             >
               <Text style={SplashStyle.SplashTouchableLink}>Continue</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>) : (
+                <ActivityIndicator size="large" color="#6200ea" />  
+            )}
 
             <Link style={SplashStyle.SplashLink} href={"/"}>
               Already have an account? Sign In
