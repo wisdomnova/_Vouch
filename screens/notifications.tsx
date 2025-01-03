@@ -7,28 +7,35 @@ import { View, Text, ScrollView, StyleSheet } from "react-native";
 const NotificationContainer = () => {
   const notifications = [
     {
-      name: "John Doe",
+      name: "Transfer Successful",
       date: "5/11/2024 10:57AM",
+      content:
+        " Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis reprehenderit quisquam quibusdam, inventore vitae praesentium dicta eos saepe dolores totam excepturi magnam autem, odit molestias. Maiores in fugiat perferendis dolorem.",
       amount: "₦2,000",
       type: "Credit",
       status: "",
       color: "green",
     },
+
     {
-      name: "Anna Doe",
+      name: "Loan Created Successfully",
       date: "6/10/2024 7:20AM",
+      content:
+        " Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis reprehenderit quisquam quibusdam, inventore vitae praesentium dicta eos saepe dolores totam excepturi magnam autem, odit molestias. Maiores in fugiat perferendis dolorem.",
       amount: "₦4,000",
       type: "Loan",
       status: "Cleared",
       color: "green",
     },
     {
-      name: "Micheal Doe",
+      name: "Transfer Successful",
       date: "6/10/2024 7:20AM",
+      content:
+        " Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis reprehenderit quisquam quibusdam, inventore vitae praesentium dicta eos saepe dolores totam excepturi magnam autem, odit molestias. Maiores in fugiat perferendis dolorem.",
       amount: "-₦7,000",
       type: "Loan",
       status: "Outstanding",
-      color: "red",
+      color: "green",
     },
   ];
 
@@ -38,8 +45,8 @@ const NotificationContainer = () => {
         <Link href={"/home"}>
           <Entypo name="chevron-left" size={35} color="black" />
         </Link>
+        <Text style={styles.header}>Notifications</Text>
       </View>
-      <Text style={styles.header}>Notifications</Text>
 
       <ScrollView>
         {notifications.map((notification, index) => (
@@ -49,17 +56,23 @@ const NotificationContainer = () => {
           >
             <View style={styles.iconContainer}>
               <View
-                style={[styles.icon, { backgroundColor: notification.color }]}
-              />
+                style={[styles.icon, { backgroundColor: notification.colo }]}
+              >
+                <Entypo name="bell" size={21} color="#363636" />
+              </View>
             </View>
             <View style={styles.infoContainer}>
               <Text style={styles.name}>{notification.name}</Text>
-              <Text style={styles.date}>{notification.date}</Text>
+              <Text style={styles.date}>
+                {notification.content.length > 50
+                  ? `${notification.content.substring(0, 50)}...`
+                  : notification.content}
+              </Text>
             </View>
             <View style={styles.amountContainer}>
               <Text style={styles.amount}>{notification.amount}</Text>
-              <Text style={[styles.status, { color: notification.color }]}>
-                {notification.status || notification.type}
+              <Text style={[styles.status, { color: "#888" }]}>
+                {notification.date || notification.type}
               </Text>
             </View>
           </View>
@@ -70,8 +83,8 @@ const NotificationContainer = () => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-    width:"100%",
+  container: {
+    width: "100%",
     flex: 1,
     // backgroundColor: "red",
     padding: 16,
@@ -88,7 +101,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 16,
     marginBottom: 16,
-    borderLeftWidth: 5,
+    borderLeftWidth: 2,
   },
   iconContainer: {
     marginRight: 16,

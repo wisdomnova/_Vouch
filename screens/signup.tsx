@@ -77,6 +77,8 @@ const SignUp = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "X-CSRFToken":
+              "RyYNNuHKYbrkizreRp6YKMo0xOYnvpOrUGRK2508gsMis7V47ZRKGnOXdEHCxySi",
           },
           body: JSON.stringify({
             phone_number: phoneNuber,

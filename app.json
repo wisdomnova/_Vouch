@@ -5,17 +5,18 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": ["vouch"],
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
-    }, 
+    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.solo.dev.Vouch"
     },
     "web": {
       "bundler": "metro",
@@ -33,9 +34,9 @@
         "expo-splash-screen",
         {
           "backgroundColor": "#FFF",
-          "image": "./assets/splash-icon.png",
+          "image": "./assets/images/splash-icon.png",
           "dark": {
-            "image": "./assets/splash-icon.png",
+            "image": "./assets/images/splash-icon.png",
             "backgroundColor": "#FFF"
           },
           "imageWidth": 200
@@ -45,9 +46,15 @@
     "experiments": {
       "typedRoutes": true
     },
-    "permissions": [
-      "CAMERA",
-      "MEDIA_LIBRARY"
-    ]
+   
+    "extra": {
+      "router": {
+        "origin": false,
+        "root": "./screens"
+      },
+      "eas": {
+        "projectId": "d385756d-3ad7-4a65-a473-3faf1bf45aac"
+      }
+    }
   }
 }

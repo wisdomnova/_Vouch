@@ -1,13 +1,41 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 const SplashStyle = StyleSheet.create({
+  // Topay
+  ModalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  ModalContainer: {
+    backgroundColor: "#fff",
+    margin: 20,
+    padding: 20,
+    borderRadius: 10,
+  },
+  SearchInput: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    padding: 10,
+    marginBottom: 10,
+  },
+  BankItem: {
+    padding: 15,
+    borderBottomWidth: 1,
+    borderColor: "#ddd",
+  },
+  CloseButton: {
+    marginTop: 10,
+    alignItems: "center",
+  },
+
   SplashSafeView: {
     width: "100%",
     height: "100%",
     backgroundColor: "#fff",
     display: "flex",
     justifyContent: "center",
-    
+
     alignItems: "center",
   },
   SplashTopLeftView: {
@@ -16,9 +44,9 @@ const SplashStyle = StyleSheet.create({
     display: "flex",
     justifyContent: "flex-start",
     alignItems: "flex-start",
+    gap: 6,
     flexDirection: "row",
     paddingTop: 20,
-  
   },
   SplashView: {
     width: "100%",
@@ -29,7 +57,6 @@ const SplashStyle = StyleSheet.create({
     // alignItems: "flex-start",
 
     paddingHorizontal: 20,
-  
   },
   SplashImageCov: {
     width: "100%",
