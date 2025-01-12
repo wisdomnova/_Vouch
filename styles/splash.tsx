@@ -12,6 +12,8 @@ const SplashStyle = StyleSheet.create({
     margin: 20,
     padding: 20,
     borderRadius: 10,
+    minHeight: 300,
+    maxHeight  : 500,
   },
   SearchInput: {
     borderWidth: 1,

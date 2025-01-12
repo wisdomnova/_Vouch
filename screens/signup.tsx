@@ -31,8 +31,7 @@ const SignUp = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-
-    const router = useRouter();
+  const router = useRouter();
   const handleDateChange = (event: any, date?: Date) => {
     const currentDate = date || dob;
     setShowDatePicker(Platform.OS === "ios");
@@ -77,8 +76,6 @@ const SignUp = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "X-CSRFToken":
-              "RyYNNuHKYbrkizreRp6YKMo0xOYnvpOrUGRK2508gsMis7V47ZRKGnOXdEHCxySi",
           },
           body: JSON.stringify({
             phone_number: phoneNuber,
@@ -92,27 +89,53 @@ const SignUp = () => {
         }
       );
 
-      const responseData = await response.json();
-      console.log("data",responseData);
-      console.log("submitted");
+      const rawResponse = await response.text(); // Get the raw response as text
+      try {
+        const responseData = JSON.parse(rawResponse); // Parse JSON manually
+        console.log("data", responseData);
 
-      if (response.ok) {
-       router.push("../home");
-    
-        
-        // Alert.alert("Success", "Account created successfully!");
-      } else {
-        // Extract the error message for `phone_number` if it exists
-        const phoneNumberError =
-          responseData.phone_number && responseData.phone_number[0];
-         const emailError =
-           responseData.email && responseData.email[0];
-        const errorMessage =
-          phoneNumberError || emailError ||
-          responseData.error ||
-          "Something went wrong. Please try again.";
-        setError(errorMessage);
+        if (response.ok) {
+          router.push("../home");
+        } else {
+          const phoneNumberError =
+            responseData.phone_number && responseData.phone_number[0];
+          const emailError = responseData.email && responseData.email[0];
+          const errorMessage =
+            phoneNumberError ||
+            emailError ||
+            responseData.error ||
+            "Something went wrong. Please try again.";
+          setError(errorMessage);
+        }
+      } catch (error) {
+        console.error("Failed to parse response as JSON", error);
+        setError(
+          "Unexpected error. Please check the server or try again later."
+        );
+      } finally {
+        setIsLoading(false);
       }
+
+      // const responseData = await response.json();
+      // console.log("data",responseData);
+      // console.log("submitted");
+
+      // if (response.ok) {
+      //  router.push("../home");
+
+      //   // Alert.alert("Success", "Account created successfully!");
+      // } else {
+      //   // Extract the error message for `phone_number` if it exists
+      //   const phoneNumberError =
+      //     responseData.phone_number && responseData.phone_number[0];
+      //    const emailError =
+      //      responseData.email && responseData.email[0];
+      //   const errorMessage =
+      //     phoneNumberError || emailError ||
+      //     responseData.error ||
+      //     "Something went wrong. Please try again.";
+      //   setError(errorMessage);
+      // }
     } catch (error) {
       console.error(error);
       setError("Failed to create an account. Please check your connection.");
@@ -120,7 +143,7 @@ const SignUp = () => {
       //   "Error",
       //   "Failed to create an account. Please check your connection."
       // );
-    }finally{
+    } finally {
       setIsLoading(false);
     }
   };
@@ -231,13 +254,15 @@ const SignUp = () => {
               </View>
             </ScrollView>
             {error ? <Text style={SplashStyle.error}>{error}</Text> : null}
-          {!isLoading ? (  <TouchableOpacity
-              style={SplashStyle.SplashTouchable}
-              onPress={handleSignUp}
-            >
-              <Text style={SplashStyle.SplashTouchableLink}>Continue</Text>
-            </TouchableOpacity>) : (
-                <ActivityIndicator size="large" color="#6200ea" />  
+            {!isLoading ? (
+              <TouchableOpacity
+                style={SplashStyle.SplashTouchable}
+                onPress={handleSignUp}
+              >
+                <Text style={SplashStyle.SplashTouchableLink}>Continue</Text>
+              </TouchableOpacity>
+            ) : (
+              <ActivityIndicator size="large" color="#6200ea" />
             )}
 
             <Link style={SplashStyle.SplashLink} href={"/"}>

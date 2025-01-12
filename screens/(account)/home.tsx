@@ -5,6 +5,8 @@ import {
   View,
   StatusBar,
   ActivityIndicator,
+  TouchableOpacity,
+  Modal,
 } from "react-native";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import HomeStyle from "@/styles/home";
@@ -13,6 +15,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Link } from "expo-router";
 import NotificationContainer from "../notifications";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import AddBankAccountModal from "../components/home/addAccountModal";
 
 interface UserDetails {
   first_name: string;
@@ -23,6 +26,10 @@ interface UserDetails {
 const Home = () => {
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const [loading, setLoading] = useState(true);
+  const [addBankAccount, setAddBankAccount] = useState(false);
+  const [bankCode, setBankCode] = useState("");
+  const [accountNumber, setAccountNumber] = useState("");
+  const [businessId, setBusinessId] = useState("");
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -67,6 +74,10 @@ const Home = () => {
     fetchUserDetails();
   }, []);
 
+  // Add Bank Acount
+  const addAccount = async () => {
+    setAddBankAccount(true);
+  };
   if (loading) {
     return (
       <View>
@@ -142,6 +153,12 @@ const Home = () => {
 
             <View style={HomeStyle.HomeViewFlex}>
               <View style={HomeStyle.HomeViewDebitCard}>
+                <TouchableOpacity
+                  style={HomeStyle.button}
+                  onPress={() => addAccount()}
+                >
+                  <Text style={HomeStyle.buttonText}>Add Account</Text>
+                </TouchableOpacity>
                 <View style={HomeStyle.HomeViewDebitCardRow}>
                   <FontAwesome name="cc-visa" size={30} color="#FFF" />
                   <FontAwesome name="wifi" size={15} color="#FFF" />
@@ -174,6 +191,10 @@ const Home = () => {
                   </View>
                 </View>
               </View>
+              <AddBankAccountModal
+                visible={addBankAccount}
+                onClose={() => setAddBankAccount(false)}
+              />
 
               {/* <View style={HomeStyle.HomeViewEligBox}>
                 <View style={HomeStyle.HomeViewEligBoxCol}>

@@ -31,7 +31,6 @@ export default function App() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  
   const router = useRouter();
 
   useEffect(() => {
@@ -44,6 +43,7 @@ export default function App() {
           // Redirect to home if user_id exists
           router.push("/(account)/home");
         }
+        // router.push("/");
       } catch (e) {
         router.push("/");
         console.warn("Error during initialization:", e);
@@ -87,10 +87,19 @@ export default function App() {
       const responseData = await response.json();
       const userData = jwtDecode<{ user_id: string }>(responseData.access);
 
+      console.log(responseData);
+
       await AsyncStorage.setItem("user_id", userData.user_id);
+      await AsyncStorage.setItem(
+        "user_token",
+        JSON.stringify({
+          token: responseData.access,
+          refresh: responseData.refresh,
+        })
+      );
       router.push("/home");
     } catch (error: any) {
-      console.error("Sign-Up Error:", error.message);
+      console.error("Sign-Up Error:", error);
       setError(error.message || "Failed to sign in. Please try again.");
       Alert.alert(
         "Error",

@@ -137,10 +137,31 @@ const HomeStyle = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center",
+    // alignItems: "center",
     rowGap: 14,
     paddingHorizontal: 30,
     paddingVertical: 20,
+  },
+
+  button: {
+    alignSelf: "flex-end",
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    // backgroundColor: "#4A90E2",
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 14,
+    fontWeight: "600",
+    textAlign: "center",
   },
   HomeViewDebitCardRow: {
     width: "100%",
@@ -362,13 +383,13 @@ const HomeStyle = StyleSheet.create({
     fontWeight: 500,
     color: "#000",
   },
-//   HomeSafeView: {
-//     flex: 1,
-//     backgroundColor: "#f9f9f9",
-//   },
-//   HomeView: {
-//     paddingHorizontal: 20,
-//   },
+  //   HomeSafeView: {
+  //     flex: 1,
+  //     backgroundColor: "#f9f9f9",
+  //   },
+  //   HomeView: {
+  //     paddingHorizontal: 20,
+  //   },
   HeaderText: {
     fontSize: 24,
     fontWeight: "600",

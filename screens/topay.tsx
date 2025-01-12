@@ -17,6 +17,7 @@ import {
 import SplashStyle from "@/styles/splash";
 import { Link } from "expo-router";
 import Entypo from "@expo/vector-icons/Entypo";
+import fetchBanks from "./components/fetchAllBanks";
 
 const Topay = () => {
   const [banks, setBanks] = useState<{ code: string; name: string }[]>([]);
@@ -24,47 +25,55 @@ const Topay = () => {
     { code: string; name: string }[]
   >([]);
   const [selectedBank, setSelectedBank] = useState("");
+  const [recipientBank, setRecipientBank] = useState("");
   const [searchText, setSearchText] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [currentDropdown, setCurrentDropdown] = useState<"user" | "recipient">(
+    "user"
+  );
+  const [accountNumber, setAccountNumber] = useState("");
+  const [amount, setAmount] = useState("");
 
   // Fetch bank data
   useEffect(() => {
-    const fetchBanks = async () => {
-      try {
-        const response = await fetch(
-          "https://vouch-backend.onrender.com/api/v1/banks/get_all_nigerian_bank_codes/"
-        );
-        const data = await response.json();
-        const bankList = Object.entries(data).map(([code, name]) => ({
-          code,
-          name: name as string,
-        }));
-        setBanks(bankList);
-        setFilteredBanks(bankList);
-      } catch (error) {
-        console.error("Error fetching banks:", error);
-      }
-    };
-    fetchBanks();
+    fetchBanks(setBanks, setFilteredBanks);
   }, []);
 
   // Filter banks based on search text
-interface Bank {
-    code: string;
-    name: string;
-}
-
-const handleSearch = (text: string): void => {
+  const handleSearch = (text: string): void => {
     setSearchText(text);
     if (text === "") {
-        setFilteredBanks(banks);
+      setFilteredBanks(banks);
     } else {
-        const filtered = banks.filter((bank: Bank) =>
-            bank.name.toLowerCase().includes(text.toLowerCase())
-        );
-        setFilteredBanks(filtered);
+      const filtered = banks.filter((bank) =>
+        bank.name.toLowerCase().includes(text.toLowerCase())
+      );
+      setFilteredBanks(filtered);
     }
-};
+  };
+
+  const openDropdown = (type: "user" | "recipient") => {
+    setCurrentDropdown(type);
+    setSearchText("");
+    setFilteredBanks(banks);
+    setIsModalVisible(true);
+  };
+
+  const selectBank = (bankCode: string) => {
+    if (currentDropdown === "user") {
+      setSelectedBank(bankCode);
+    } else {
+      setRecipientBank(bankCode);
+    }
+    setIsModalVisible(false);
+  };
+
+  const handleSubmit = () => {
+    console.log("Selected Bank:", selectedBank);
+    console.log("Recipient Bank:", recipientBank);
+    console.log("Account Number:", accountNumber);
+    console.log("Amount:", amount);
+  };
 
   return (
     <SafeAreaView style={SplashStyle.SplashSafeView}>
@@ -94,23 +103,90 @@ const handleSearch = (text: string): void => {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={SplashStyle.SplashKeyboard}
           >
-            {/* Searchable Dropdown */}
+            {/* User Bank Dropdown */}
             <View style={SplashStyle.SplashLeftCol}>
               <Text style={SplashStyle.SplashLeftColScap}>
                 Select Your Bank
               </Text>
               <TouchableOpacity
-                style={SplashStyle.SplashLeftColInp}
-                onPress={() => setIsModalVisible(true)}
+                style={{
+                  paddingHorizontal: 10,
+                  paddingVertical: 15,
+                  borderWidth: 2,
+                  borderColor: "#ddd",
+                  borderRadius: 5,
+                  width: "100%",
+                }}
+                onPress={() => openDropdown("user")}
               >
-                <Text>
+                <Text style={{ color: "#7b7b7b" }}>
                   {selectedBank
-                    ? filteredBanks.find((bank) => bank.code === selectedBank)
-                        ?.name || "Select Bank"
+                    ? banks.find((bank) => bank.code === selectedBank)?.name ||
+                      "Select Bank"
                     : "Select Bank"}
                 </Text>
               </TouchableOpacity>
             </View>
+
+            {/* Recipient Bank Dropdown */}
+            <View style={SplashStyle.SplashLeftCol}>
+              <Text style={SplashStyle.SplashLeftColScap}>Recipient Bank</Text>
+              <TouchableOpacity
+                style={{
+                  paddingHorizontal: 10,
+                  paddingVertical: 15,
+                  borderWidth: 2,
+                  borderColor: "#ddd",
+                  borderRadius: 5,
+                  width: "100%",
+                }}
+                onPress={() => openDropdown("recipient")}
+              >
+                <Text style={{ color: "#7b7b7b" }}>
+                  {recipientBank
+                    ? banks.find((bank) => bank.code === recipientBank)?.name ||
+                      "Select Bank"
+                    : "Select Bank"}
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Other Input Fields */}
+            <View style={SplashStyle.SplashLeftCol}>
+              <Text style={SplashStyle.SplashLeftColScap}>
+                Recipient Account Number
+              </Text>
+              <TextInput
+                style={SplashStyle.SplashLeftColInp}
+                placeholder="0023456767"
+                placeholderTextColor="#7b7b7b"
+                value={accountNumber}
+                onChangeText={setAccountNumber}
+              />
+            </View>
+
+            <View style={SplashStyle.SplashLeftCol}>
+              <Text style={SplashStyle.SplashLeftColScap}>
+                Amount Requested
+              </Text>
+              <TextInput
+                style={SplashStyle.SplashLeftColInp}
+                placeholder="#90000"
+                placeholderTextColor="#7b7b7b"
+                value={amount}
+                onChangeText={setAmount}
+              />
+            </View>
+
+            <TouchableOpacity
+              style={SplashStyle.SplashTouchable}
+              onPress={handleSubmit}
+            >
+              <Text style={SplashStyle.SplashTouchableLink}>Vouch to00 Pay</Text>
+              {/* <Link style={SplashStyle.SplashTouchableLink} href={"/merchant"}>
+                Proceed
+              </Link> */}
+            </TouchableOpacity>
 
             {/* Modal for Dropdown */}
             <Modal
@@ -132,10 +208,7 @@ const handleSearch = (text: string): void => {
                     renderItem={({ item }) => (
                       <TouchableHighlight
                         underlayColor="#ddd"
-                        onPress={() => {
-                          setSelectedBank(item.code);
-                          setIsModalVisible(false);
-                        }}
+                        onPress={() => selectBank(item.code)}
                       >
                         <Text style={SplashStyle.BankItem}>{item.name}</Text>
                       </TouchableHighlight>
@@ -150,43 +223,6 @@ const handleSearch = (text: string): void => {
                 </View>
               </View>
             </Modal>
-
-            <View style={SplashStyle.SplashLeftCol}>
-              <Text style={SplashStyle.SplashLeftColScap}>
-                Recipient Account Number
-              </Text>
-              <TextInput
-                style={SplashStyle.SplashLeftColInp}
-                placeholder="0023456767"
-                placeholderTextColor="#7b7b7b"
-              />
-            </View>
-
-            <View style={SplashStyle.SplashLeftCol}>
-              <Text style={SplashStyle.SplashLeftColScap}>Recipient Bank</Text>
-              <TextInput
-                style={SplashStyle.SplashLeftColInp}
-                placeholder="Select Bank"
-                placeholderTextColor="#7b7b7b"
-              />
-            </View>
-
-            <View style={SplashStyle.SplashLeftCol}>
-              <Text style={SplashStyle.SplashLeftColScap}>
-                Amount Requested
-              </Text>
-              <TextInput
-                style={SplashStyle.SplashLeftColInp}
-                placeholder="#90000"
-                placeholderTextColor="#7b7b7b"
-              />
-            </View>
-
-            <TouchableOpacity style={SplashStyle.SplashTouchable}>
-              <Link style={SplashStyle.SplashTouchableLink} href={"/merchant"}>
-                Proceed
-              </Link>
-            </TouchableOpacity>
           </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
       </View>

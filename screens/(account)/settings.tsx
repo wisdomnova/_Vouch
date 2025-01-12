@@ -10,7 +10,7 @@ import {
 import { Ionicons, Feather } from "@expo/vector-icons"; // Icons from Expo vector icons library
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native"; // Hook from React Navigation
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 
 interface UserDetails {
   first_name: string;
@@ -18,7 +18,12 @@ interface UserDetails {
 }
 
 const Home = () => {
-  const [userDetails, setUserDetails] = React.useState<UserDetails | null>(null);
+  const [userDetails, setUserDetails] = React.useState<UserDetails | null>(
+    null
+  );
+
+  const router = useRouter();
+
   useFocusEffect(
     useCallback(() => {
       const fetchData = async () => {
@@ -49,12 +54,13 @@ const Home = () => {
         />
         <View style={styles.profileInfo}>
           <Text style={styles.profileName}>
-            {userDetails ? `${userDetails.first_name} ${userDetails.last_name}` : "Loading..."}
+            {userDetails
+              ? `${userDetails.first_name} ${userDetails.last_name}`
+              : "Loading..."}
           </Text>
           <TouchableOpacity>
-            <Link href="/settingsComponent/EditProfileScreen">
-            <Text style={styles.editProfileText}>Edit Profile {">"}</Text>
-            
+            <Link href={"/settingsComponent/EditProfileScreen"}>
+              <Text style={styles.editProfileText}>Edit Profile {">"}</Text>
             </Link>
           </TouchableOpacity>
         </View>
@@ -97,7 +103,13 @@ const Home = () => {
       </TouchableOpacity>
 
       {/* Sign Out */}
-      <TouchableOpacity style={styles.signOutButton}>
+      <TouchableOpacity
+        style={styles.signOutButton}
+        onPress={() => {
+          AsyncStorage.removeItem("user_id");
+          router.push("/");
+        }}
+      >
         <Ionicons name="exit-outline" size={24} color="#e63946" />
         <Text style={styles.signOutText}>Sign Out</Text>
       </TouchableOpacity>
