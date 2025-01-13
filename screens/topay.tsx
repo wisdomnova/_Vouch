@@ -18,6 +18,7 @@ import SplashStyle from "@/styles/splash";
 import { Link } from "expo-router";
 import Entypo from "@expo/vector-icons/Entypo";
 import fetchBanks from "./components/fetchAllBanks";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Topay = () => {
   const [banks, setBanks] = useState<{ code: string; name: string }[]>([]);
@@ -34,10 +35,56 @@ const Topay = () => {
   const [accountNumber, setAccountNumber] = useState("");
   const [amount, setAmount] = useState("");
 
+  const getUserToken = async () => {
+    try {
+      const userToken = await AsyncStorage.getItem("user_token");
+      return userToken ? JSON.parse(userToken) : null;
+    } catch (error) {
+      console.error("Error fetching user token:", error);
+      return null;
+    }
+  };
+
   // Fetch bank data
   useEffect(() => {
     fetchBanks(setBanks, setFilteredBanks);
+    fetchBankLinked()
   }, []);
+
+  const fetchBankLinked = async () => {
+    // setLoading(true);
+    try {
+      const user = await getUserToken();
+      
+      if (!user) {
+        console.error("User token not found");
+        return;
+      }
+
+      const response = await fetch(
+        "https://vouch-backend.onrender.com/api/v1/banks/",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch linked banks: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log("Linked banks:", data);
+    } catch (error) {
+      console.error("Error fetching linked banks:", error);
+    } finally {
+      // setLoading(false);
+    }
+  };
 
   // Filter banks based on search text
   const handleSearch = (text: string): void => {
@@ -182,7 +229,9 @@ const Topay = () => {
               style={SplashStyle.SplashTouchable}
               onPress={handleSubmit}
             >
-              <Text style={SplashStyle.SplashTouchableLink}>Vouch to00 Pay</Text>
+              <Text style={SplashStyle.SplashTouchableLink}>
+                Vouch to00 Pay
+              </Text>
               {/* <Link style={SplashStyle.SplashTouchableLink} href={"/merchant"}>
                 Proceed
               </Link> */}

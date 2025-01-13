@@ -26,3 +26,5 @@ const fetchBanks = async (setBanks: SetBanks, setFilteredBanks: SetBanks): Promi
 };
 
 export default fetchBanks;
+
+

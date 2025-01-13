@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from "react-native";
 
 const BvnVerificationScreen = () => {
   const [bvn, setBvn] = useState("");
@@ -74,7 +74,10 @@ const BvnVerificationScreen = () => {
         onChangeText={setBvn}
       />
       {error ? <Text style={styles.error}>{error}</Text> : null}
-      <Button title="Verify" onPress={handleVerify} />
+      <TouchableOpacity onPress={handleVerify}>
+        <Text>Verify</Text>
+      </TouchableOpacity>
+      {/* <Button title="Verify" onPress={handleVerify} /> */}
     </View>
   );
 };

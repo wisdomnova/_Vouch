@@ -36,10 +36,19 @@ const Home = () => {
       try {
         // Get the user ID from storage
         const userId = await AsyncStorage.getItem("user_id");
+
         console.log("set the id", userId);
 
         if (!userId) {
           console.error("User ID not found");
+          return;
+        }
+        console.log(userId);
+        const userToken = await AsyncStorage.getItem("user_token");
+        const user = userToken ? JSON.parse(userToken) : null;
+
+        if (!user) {
+          console.error("User token not found");
           return;
         }
 
@@ -50,8 +59,7 @@ const Home = () => {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
-              "X-CSRFToken":
-                "RyYNNuHKYbrkizreRp6YKMo0xOYnvpOrUGRK2508gsMis7V47ZRKGnOXdEHCxySi",
+              Authorization: `Bearer ${user.token}`,
             },
           }
         );

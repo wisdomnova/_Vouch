@@ -41,7 +41,7 @@ export default function App() {
         const storedUserId = await AsyncStorage.getItem("user_id");
         if (storedUserId) {
           // Redirect to home if user_id exists
-          router.push("/(account)/home");
+          // router.push("/(account)/home");
         }
         // router.push("/");
       } catch (e) {
@@ -75,13 +75,13 @@ export default function App() {
             "X-CSRFToken":
               "RyYNNuHKYbrkizreRp6YKMo0xOYnvpOrUGRK2508gsMis7V47ZRKGnOXdEHCxySi",
           },
-          body: JSON.stringify({ login: email, password: pin }),
+          body: JSON.stringify({ login: email, passcode: pin }),
         }
       );
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.detail || "Something went wrong.");
+        setError(errorData.detail || "Something went wrong.");
       }
 
       const responseData = await response.json();
@@ -100,11 +100,11 @@ export default function App() {
       router.push("/home");
     } catch (error: any) {
       console.error("Sign-Up Error:", error);
-      setError(error.message || "Failed to sign in. Please try again.");
-      Alert.alert(
-        "Error",
-        error.message || "Connection issue. Please try again."
-      );
+      // setError(error || "Failed to sign in. Please try again.");
+      // Alert.alert(
+      //   "Error",
+      //   error.message || "Connection issue. Please try again."
+      // );
     } finally {
       setIsLoading(false);
     }

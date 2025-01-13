@@ -42,7 +42,7 @@ const AddBankAccountModal: React.FC<AddBankAccountModalProps> = ({
       // console.log(token);
 
       const parsedToken = JSON.parse(token);
-      console.log("on modal", parsedToken.refresh);
+      // console.log("on modal", parsedToken.refresh);
       setAccessToken(parsedToken.token);
       setRefreshToken(parsedToken.refresh);
     } else {
