@@ -95,7 +95,7 @@ const SignUp = () => {
         console.log("data", responseData);
 
         if (response.ok) {
-          router.push("../home");
+          router.push("/");
         } else {
           const phoneNumberError =
             responseData.phone_number && responseData.phone_number[0];
